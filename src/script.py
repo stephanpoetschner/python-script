@@ -52,11 +52,14 @@ try:
     NullHandler = logging.NullHandler
 except AttributeError:
     class NullHandler(logging.Handler):
-        def emit(self, record): pass
+        """
+        do-nothing NullHandler to prevent "No handlers could be found" errors.
+        """
+        def emit(self, record):
+            pass
 
-# Add a do-nothing NullHandler to the module logger to prevent "No handlers
-# could be found" errors. The calling code can still add other, more useful
-# handlers, or otherwise configure logging.
+# Add a NullHandler as generic default. The calling code can still add other,
+# more useful handlers, or otherwise configure logging.
 log = logging.getLogger(__name__)
 log.addHandler(NullHandler())
 
@@ -111,9 +114,9 @@ def main(argv, out=None, err=None):
     if opts.silent:
         level = logging.CRITICAL + 1
 
-    format = "%(message)s"
+    message_format = "%(message)s"
     handler = logging.StreamHandler(err)
-    handler.setFormatter(logging.Formatter(format))
+    handler.setFormatter(logging.Formatter(message_format))
     log.addHandler(handler)
     log.setLevel(level)
 
