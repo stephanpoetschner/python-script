@@ -1,0 +1,7 @@
+#general
+ipython
+ipdb
+fabric
+requests
+path.py
+urlobject
